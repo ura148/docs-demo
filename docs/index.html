@@ -15,9 +15,17 @@
       transform: translateX(-300px);
     }
 
-    /* 検索窓をハンバーガーボタンの高さ分押し下げ */
-    .sidebar {
-      padding-top: 50px;
+    /*
+     * 検索プラグインが後から inject する
+     *   .sidebar { padding-top: 0 } / .search { padding: 6px }
+     * より優先させ、固定ハンバーガー（幅 42px）と検索欄の横重なりを防ぐ。
+     */
+    aside.sidebar {
+      padding-top: 52px !important;
+    }
+
+    div.search {
+      padding-left: 48px !important;
     }
 
     /* カスタムサイドバートグルボタン（Docsify 内蔵 .sidebar-toggle を上書き） */
