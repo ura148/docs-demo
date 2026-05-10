@@ -15,6 +15,11 @@
       transform: translateX(-300px);
     }
 
+    /* 検索窓をハンバーガーボタンの高さ分押し下げ */
+    .sidebar {
+      padding-top: 50px;
+    }
+
     /* カスタムサイドバートグルボタン（Docsify 内蔵 .sidebar-toggle を上書き） */
     .sidebar-toggle {
       position: fixed;
@@ -120,7 +125,7 @@
           var li = document.createElement('li');
           if (h.tagName === 'H3') li.className = 'toc-h3';
           var a = document.createElement('a');
-          a.href = '#' + h.id;
+          a.href = '?id=' + h.id;
           a.textContent = h.textContent;
           li.appendChild(a);
           ol.appendChild(li);
