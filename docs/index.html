@@ -10,9 +10,55 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
+    /* サイドバー非表示時のスタイル */
+    body.sidebar-hidden .sidebar {
+      display: none !important;
+    }
+
+    body.sidebar-hidden .content {
+      left: 0 !important;
+      width: 100% !important;
+      position: static !important;
+    }
+
+    body.sidebar-hidden .nav {
+      padding-left: 0 !important;
+    }
+
+    /* トグルボタンのスタイル */
+    #sidebar-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      background: #42b983;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    #sidebar-toggle:hover {
+      background: #2c7a5f;
+    }
+
+    body.sidebar-hidden #sidebar-toggle {
+      background: #666;
+      left: 10px;
+    }
+
+    body.sidebar-hidden #sidebar-toggle:hover {
+      background: #444;
+    }
   </style>
 </head>
 <body>
+  <button id="sidebar-toggle" title="サイドバーの表示/非表示">☰</button>
   <div id="app"></div>
   <script>
     window.$docsify = {
@@ -48,5 +94,29 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
+
+  <script>
+    // サイドバー表示/非表示の切り替え機能
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebarHiddenKey = 'docsify-sidebar-hidden';
+
+    // ページロード時に保存された状態を復元
+    function restoreSidebarState() {
+      if (localStorage.getItem(sidebarHiddenKey) === 'true') {
+        document.body.classList.add('sidebar-hidden');
+      }
+    }
+
+    // ボタンクリック時
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('sidebar-hidden');
+      const isHidden = document.body.classList.contains('sidebar-hidden');
+      localStorage.setItem(sidebarHiddenKey, isHidden);
+    });
+
+    // ページロード時に状態を復元
+    document.addEventListener('DOMContentLoaded', restoreSidebarState);
+    restoreSidebarState();
+  </script>
 </body>
 </html>
