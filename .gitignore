@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (オプション：ローカルプレビュー用)
+node_modules/
+.npm
+package-lock.json
+
+# Docsify (オプション)
+.docsify/
+
+# Others
+*.log
+*.tmp
