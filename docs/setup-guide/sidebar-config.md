@@ -50,7 +50,7 @@
 
 ### 注意点
 
-- `basePath: '/docs-demo/'` が設定されている場合、ドキュメント内は相対パスで記載
+- `index.html` では `pathname` が `/docs-demo` で始まるときだけ `basePath: '/docs-demo/'`、それ以外（`docsify serve` など）は `basePath: '/'` になる。サイドバーは従来どおり相対パスで記載する
 - `docs/` フォルダ構造がそのまま URL パスになる
 
 ---

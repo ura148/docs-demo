@@ -16,7 +16,7 @@
     }
 
     /*
-     * 検索プラグインが inject する .sidebar { padding-top: 0 } 等より !important で上書き。
+     * 検索プラグインが inject するスタイルより !important で上書き（上余白は 0）。
      * ハンバーガーはビューポート左下に固定し、Flex でアイコンを中央配置。
      * サイドバー／本文に下余白を開けてメニュー本文と重ならないようにする。
      */
@@ -28,7 +28,7 @@
     }
 
     aside.sidebar {
-      padding-top: calc(var(--docsify-toolbar-h) + env(safe-area-inset-top, 0px)) !important;
+      padding-top: 0 !important;
       padding-bottom: calc(
         var(--docsify-menu-btn-h) + var(--docsify-menu-stack-gap) +
           env(safe-area-inset-bottom, 0px)
@@ -44,9 +44,9 @@
     div.search {
       padding-left: 15px !important;
       padding-right: 15px !important;
-      padding-top: env(safe-area-inset-top, 0px) !important;
+      padding-top: 0 !important;
       padding-bottom: 0 !important;
-      min-height: calc(var(--docsify-toolbar-h) + env(safe-area-inset-top, 0px));
+      min-height: var(--docsify-toolbar-h);
       box-sizing: border-box;
     }
 
@@ -155,8 +155,34 @@
 <body>
   <div id="app"></div>
   <script>
-    // Contents（ページ内目次）プラグイン
-    var tocPlugin = function(hook) {
+    // GitHub Pages のプロジェクトサイト（/docs-demo/）ではサブパスが必要。
+    // docsify serve などローカルではルート配下で配信されるため / に合わせる。
+    function resolveDocsifyBasePath() {
+      var pathname = window.location.pathname || '';
+      if (pathname.indexOf('/docs-demo') === 0) {
+        return '/docs-demo/';
+      }
+      return '/';
+    }
+
+    // Contents（ページ内目次）プラグイン（ハッシュルーター用に #/path?id= を生成）
+    var tocPlugin = function(hook, vm) {
+      function tocHrefForId(headingId) {
+        var path = '';
+        try {
+          if (vm && vm.route && vm.route.path != null) {
+            path = String(vm.route.path);
+          }
+        } catch (e) {}
+        path = path.replace(/^\/+/, '').split('?')[0];
+        if (!path) {
+          var hash = (window.location.hash || '#/').replace(/^#/, '');
+          path = hash.split('?')[0].replace(/^\/+/, '');
+        }
+        var base = path ? '#/' + path : '#/';
+        return base + '?id=' + encodeURIComponent(headingId);
+      }
+
       hook.doneEach(function() {
         var section = document.querySelector('.markdown-section');
         if (!section) return;
@@ -181,7 +207,7 @@
           var li = document.createElement('li');
           if (h.tagName === 'H3') li.className = 'toc-h3';
           var a = document.createElement('a');
-          a.href = '?id=' + h.id;
+          a.href = tocHrefForId(h.id);
           a.textContent = h.textContent;
           li.appendChild(a);
           ol.appendChild(li);
@@ -204,7 +230,7 @@
       loadSidebar: '_sidebar.md',
       loadNavbar: '_navbar.md',
       auto2top: true,
-      basePath: '/docs-demo/',
+      basePath: resolveDocsifyBasePath(),
       homepage: 'README.md',
       notFoundPage: false,
       search: {
