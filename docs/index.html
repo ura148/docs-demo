@@ -5,15 +5,15 @@
   <title>設計書</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/themes/vue.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-toc@1/dist/toc.css">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Contents（ページ内目次）は非表示 */
-    .page_toc {
-      display: none !important;
+
+    /* コンテンツエリアをブロック表示 */
+    .content {
+      display: block !important;
     }
 
     /* サイドバー非表示時のスタイル */
@@ -23,10 +23,6 @@
 
     body.sidebar-hidden aside.nav {
       display: none !important;
-    }
-
-    .content {
-      display: block !important;
     }
 
     body.sidebar-hidden .content {
@@ -84,7 +80,7 @@
       loadSidebar: '_sidebar.md',
       loadNavbar: '_navbar.md',
       auto2top: true,
-      basePath: '/docs-demo/',
+      basePath: '/',
       homepage: 'README.md',
       notFoundPage: false,
       search: {
@@ -94,10 +90,6 @@
         noData: '検索結果なし',
         depth: 3
       },
-      toc: {
-        tocMaxLevel: 3,
-        target: 'h2, h3'
-      },
       mermaid: {
         theme: 'default'
       }
@@ -106,8 +98,7 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-toc@1/dist/toc.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
 
