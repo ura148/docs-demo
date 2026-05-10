@@ -18,33 +18,50 @@
     /*
      * 検索プラグインが後から inject する
      *   .sidebar { padding-top: 0 } / .search { padding: 6px }
-     * より優先させ、固定ハンバーガー（幅 42px）と検索欄の横重なりを防ぐ。
+     * より優先させる。ハンバーガーと検索行の高さを揃え、縦位置を中央合わせする。
      */
+    :root {
+      --docsify-toolbar-h: 48px;
+      --docsify-menu-btn-w: 48px;
+    }
+
     aside.sidebar {
-      padding-top: 52px !important;
+      padding-top: calc(var(--docsify-toolbar-h) + env(safe-area-inset-top, 0px)) !important;
     }
 
     div.search {
-      padding-left: 48px !important;
+      padding-left: var(--docsify-menu-btn-w) !important;
+      padding-right: 15px !important;
+      padding-top: env(safe-area-inset-top, 0px) !important;
+      padding-bottom: 0 !important;
+      min-height: calc(var(--docsify-toolbar-h) + env(safe-area-inset-top, 0px));
+      box-sizing: border-box;
+    }
+
+    /* プラグインの flex に合わせ、検索行の高さ内で入力を縦中央に */
+    div.search .input-wrap {
+      min-height: var(--docsify-toolbar-h);
+      box-sizing: border-box;
     }
 
     /* カスタムサイドバートグルボタン（Docsify 内蔵 .sidebar-toggle を上書き） */
     .sidebar-toggle {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: env(safe-area-inset-top, 0px);
+      left: env(safe-area-inset-left, 0px);
       z-index: 200;
       background: transparent;
       border: none;
       cursor: pointer;
-      width: 42px;
-      height: 42px;
-      padding: 8px;
+      width: var(--docsify-menu-btn-w);
+      height: calc(var(--docsify-toolbar-h) + env(safe-area-inset-top, 0px));
+      padding: 0;
       display: flex;
       flex-direction: column;
       gap: 5px;
       align-items: center;
       justify-content: center;
+      box-sizing: border-box;
     }
 
     .sidebar-toggle span {
