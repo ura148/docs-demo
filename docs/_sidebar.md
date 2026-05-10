@@ -10,6 +10,7 @@
   - [概要](project-b/README.md)
 
 - **共通**
+  - [機能一覧](common/features.md)
   - [用語集](common/glossary.md)
   - [開発標準](common/standards.md)
   - [FAQ](common/faq.md)
