@@ -1,5 +1,5 @@
 - [ホーム](/)
 - プロジェクト
-  - [Project-A](project-a/)
-  - [Project-B](project-b/)
+  - [Salesforce](salesforce/)
+  - [Heroku](heroku/)
 - [共通](common/)

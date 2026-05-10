@@ -1,13 +1,13 @@
 - [トップ](/)
 
-- **Project-A**
-  - [概要](project-a/README.md)
-  - [アーキテクチャ](project-a/architecture.md)
-  - [業務フロー](project-a/flows.md)
-  - [API仕様](project-a/apis.md)
+- **Salesforce**
+  - [概要](salesforce/README.md)
+  - [アーキテクチャ](salesforce/architecture.md)
+  - [業務フロー](salesforce/flows.md)
+  - [API仕様](salesforce/apis.md)
 
-- **Project-B**
-  - [概要](project-b/README.md)
+- **Heroku**
+  - [概要](heroku/README.md)
 
 - **共通**
   - [機能一覧](common/features.md)
