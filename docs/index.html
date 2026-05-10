@@ -10,65 +10,133 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-
     /* サイドバー非表示時のスタイル */
-    body.sidebar-hidden .sidebar {
-      display: none !important;
+    body.close aside.sidebar {
+      transform: translateX(-300px);
     }
 
-    body.sidebar-hidden aside.nav {
-      display: none !important;
-    }
-
-    body.sidebar-hidden .content {
-      left: 0 !important;
-      right: 0 !important;
-      width: 100% !important;
-      margin-left: 0 !important;
-      position: static !important;
-      max-width: 100% !important;
-    }
-
-    /* サイドバートグルボタン */
+    /* カスタムサイドバートグルボタン（Docsify 内蔵 .sidebar-toggle を上書き） */
     .sidebar-toggle {
       position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 100;
-      background: #42b983;
-      color: white;
+      top: 0;
+      left: 0;
+      z-index: 200;
+      background: transparent;
       border: none;
-      border-radius: 4px;
-      padding: 8px 12px;
       cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      transition: background 0.3s;
+      width: 42px;
+      height: 42px;
+      padding: 8px;
       display: flex;
+      flex-direction: column;
+      gap: 5px;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
     }
 
-    .sidebar-toggle:hover {
+    .sidebar-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #42b983;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .sidebar-toggle:hover span {
       background: #2c7a5f;
     }
 
-    body.sidebar-hidden .sidebar-toggle {
-      background: #666;
+    /* Contents（ページ内目次）ボックス */
+    .doc-toc {
+      background: #f8f9fa;
+      border: 1px solid #dde1e7;
+      border-radius: 6px;
+      padding: 12px 16px 14px;
+      margin: 18px 0 24px;
+      display: inline-block;
+      min-width: 200px;
+      max-width: 420px;
     }
 
-    body.sidebar-hidden .sidebar-toggle:hover {
-      background: #444;
+    .doc-toc-title {
+      font-weight: 700;
+      font-size: 0.95em;
+      margin: 0 0 8px;
+      color: #2c3e50;
     }
 
+    .doc-toc ol {
+      margin: 0;
+      padding-left: 1.4em;
+    }
+
+    .doc-toc li {
+      margin: 4px 0;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+
+    .doc-toc li.toc-h3 {
+      margin-left: 1em;
+    }
+
+    .doc-toc a {
+      color: #42b983;
+      text-decoration: none;
+    }
+
+    .doc-toc a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <button class="sidebar-toggle" id="sidebar-toggle" title="サイドバーの表示/非表示">☰</button>
   <div id="app"></div>
   <script>
+    // Contents（ページ内目次）プラグイン
+    var tocPlugin = function(hook) {
+      hook.doneEach(function() {
+        var section = document.querySelector('.markdown-section');
+        if (!section) return;
+
+        // 既存 TOC を削除
+        var old = section.querySelector('.doc-toc');
+        if (old) old.remove();
+
+        var headings = Array.from(section.querySelectorAll('h2, h3'));
+        if (headings.length < 2) return;
+
+        var toc = document.createElement('div');
+        toc.className = 'doc-toc';
+
+        var title = document.createElement('p');
+        title.className = 'doc-toc-title';
+        title.textContent = 'Contents';
+        toc.appendChild(title);
+
+        var ol = document.createElement('ol');
+        headings.forEach(function(h) {
+          var li = document.createElement('li');
+          if (h.tagName === 'H3') li.className = 'toc-h3';
+          var a = document.createElement('a');
+          a.href = '#' + h.id;
+          a.textContent = h.textContent;
+          li.appendChild(a);
+          ol.appendChild(li);
+        });
+        toc.appendChild(ol);
+
+        // h1 の直後、なければ先頭に挿入
+        var h1 = section.querySelector('h1');
+        if (h1 && h1.nextSibling) {
+          section.insertBefore(toc, h1.nextSibling);
+        } else {
+          section.prepend(toc);
+        }
+      });
+    };
+
     window.$docsify = {
       name: 'プロジェクト設計書',
       repo: 'https://github.com/ura148/docs-demo',
@@ -87,38 +155,45 @@
       },
       mermaid: {
         theme: 'default'
-      }
+      },
+      plugins: [tocPlugin]
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/emoji.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-flexible-alerts@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
 
   <script>
-    // サイドバー表示/非表示の切り替え機能
-    const sidebarToggleBtn = document.getElementById('sidebar-toggle');
-    const sidebarHiddenKey = 'docsify-sidebar-hidden';
+    var SIDEBAR_KEY = 'docsify-sidebar-hidden';
 
-    // ページロード時に保存された状態を復元
-    function restoreToggleState() {
-      if (localStorage.getItem(sidebarHiddenKey) === 'true') {
-        document.body.classList.add('sidebar-hidden');
+    function applyState(hidden) {
+      if (hidden) {
+        document.body.classList.add('close');
+      } else {
+        document.body.classList.remove('close');
       }
     }
 
-    // サイドバートグル
-    sidebarToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('sidebar-hidden');
-      const isHidden = document.body.classList.contains('sidebar-hidden');
-      localStorage.setItem(sidebarHiddenKey, isHidden);
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+      // Docsify が生成する .sidebar-toggle にハンバーガーアイコンを注入
+      var btn = document.querySelector('.sidebar-toggle');
+      if (btn) {
+        btn.innerHTML = '<span></span><span></span><span></span>';
+        btn.title = 'サイドバーの表示/非表示';
 
-    // ページロード時に状態を復元
-    document.addEventListener('DOMContentLoaded', restoreToggleState);
-    restoreToggleState();
+        btn.addEventListener('click', function(e) {
+          e.stopImmediatePropagation();
+          var hidden = document.body.classList.toggle('close');
+          localStorage.setItem(SIDEBAR_KEY, hidden);
+        }, true);
+      }
+
+      // 保存済み状態を復元
+      applyState(localStorage.getItem(SIDEBAR_KEY) === 'true');
+    });
   </script>
 </body>
 </html>
