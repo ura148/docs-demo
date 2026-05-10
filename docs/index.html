@@ -11,6 +11,29 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    /* Contents（ページ内目次）をページ上部に表示 */
+    .page_toc {
+      position: static !important;
+      width: 100% !important;
+      right: auto !important;
+      top: auto !important;
+      background: #f5f5f5;
+      padding: 15px 20px;
+      margin: 0 0 20px 0;
+      border-bottom: 2px solid #ddd;
+      max-width: none !important;
+    }
+
+    .page_toc ul {
+      margin: 0;
+    }
+
+    .page_toc > p {
+      margin: 0 0 10px 0;
+      font-weight: bold;
+      color: #333;
+    }
+
     /* サイドバー非表示時のスタイル */
     body.sidebar-hidden .sidebar {
       display: none !important;
