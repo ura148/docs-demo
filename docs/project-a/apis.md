@@ -19,14 +19,7 @@ GET /api/documents?page=1&limit=10
     {
       "id": "doc-001",
       "title": "プロジェクト概要",
-      "url": "/sections/overview.md",
-      "updated_at": "2025-05-10"
-    },
-    {
-      "id": "doc-002",
-      "title": "システム設計書",
-      "url": "/sections/design.md",
-      "updated_at": "2025-05-10"
+      "updated_at": "2026-05-10"
     }
   ],
   "pagination": {
@@ -54,7 +47,7 @@ GET /api/documents/doc-001
     "id": "doc-001",
     "title": "プロジェクト概要",
     "content": "# プロジェクト概要\n\n...",
-    "updated_at": "2025-05-10"
+    "updated_at": "2026-05-10"
   }
 }
 ```
@@ -84,6 +77,8 @@ GET /api/documents/doc-001
 - **制限値**：1時間あたり 1000 リクエスト
 - **ヘッダ**：`X-RateLimit-Remaining` で残数を確認可能
 
----
+> [!WARNING]
+> レート制限を超えた場合は 429 Too Many Requests が返ります。
 
-実装については、実装ガイドを参照してください。
+> [!TIP]
+> 開発時は `X-RateLimit-Remaining` ヘッダを監視してください。
