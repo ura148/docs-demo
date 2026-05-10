@@ -15,6 +15,7 @@
   - [サイドバー設定](setup-guide/sidebar-config.md)
   - [プラグイン設定](setup-guide/plugin-setup.md)
   - [タブ表示サンプル](setup-guide/tabs-sample.md)
+  - [タブのみ構成の例](setup-guide/tab-only-page.md)
   - [ベストプラクティス](setup-guide/best-practices.md)
 
 - **共通**
