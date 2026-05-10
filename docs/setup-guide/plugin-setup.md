@@ -185,7 +185,11 @@ mermaid: {
 <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
 ```
 
-言語別コード例などで活躍。
+**挙動**: `<!-- tabs:start -->` ～ `<!-- tabs:end -->` で囲んだ部分**だけ**がタブになります。H1 の有無や見出しレベルでは自動ではタブ化されません（明示マークが必須）。
+
+スタイルは現行バンドルで JS から注入されるため、別途 CSS ファイルの読み込みは不要です。
+
+言語別コード例などで活躍します。具体例は [タブ表示サンプル](tabs-sample.md) を参照してください。
 
 ```markdown
 <!-- tabs:start -->

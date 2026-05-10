@@ -14,6 +14,7 @@
   - [フォルダ構造設計](setup-guide/folder-structure.md)
   - [サイドバー設定](setup-guide/sidebar-config.md)
   - [プラグイン設定](setup-guide/plugin-setup.md)
+  - [タブ表示サンプル](setup-guide/tabs-sample.md)
   - [ベストプラクティス](setup-guide/best-practices.md)
 
 - **共通**
