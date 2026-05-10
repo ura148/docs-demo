@@ -11,46 +11,9 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* Contents（ページ内目次）をページ上部に表示 */
+    /* Contents（ページ内目次）は非表示 */
     .page_toc {
-      position: static !important;
-      width: 100% !important;
-      right: auto !important;
-      top: auto !important;
-      background: #f0f0f0;
-      padding: 20px;
-      margin: 0 0 30px 0;
-      border-left: 4px solid #42b983;
-      max-width: none !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .page_toc > p {
-      margin: 0 0 15px 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: #333;
-      letter-spacing: 0.5px;
-    }
-
-    .page_toc ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .page_toc ul li {
-      margin: 8px 0;
-      color: #555;
-      font-size: 14px;
-    }
-
-    .page_toc ul li a {
-      color: #42b983;
-      text-decoration: none;
-    }
-
-    .page_toc ul li a:hover {
-      text-decoration: underline;
+      display: none !important;
     }
 
     /* サイドバー非表示時のスタイル */
@@ -71,17 +34,12 @@
       max-width: 100% !important;
     }
 
-    /* トグルボタンのスタイル */
-    .toggle-buttons {
+    /* サイドバートグルボタン */
+    .sidebar-toggle {
       position: fixed;
       top: 10px;
       left: 10px;
       z-index: 100;
-      display: flex;
-      gap: 8px;
-    }
-
-    .toggle-btn {
       background: #42b983;
       color: white;
       border: none;
@@ -98,33 +56,16 @@
       height: 40px;
     }
 
-    .toggle-btn:hover {
+    .sidebar-toggle:hover {
       background: #2c7a5f;
     }
 
-    body.sidebar-hidden .toggle-btn#sidebar-toggle {
+    body.sidebar-hidden .sidebar-toggle {
       background: #666;
     }
 
-    body.sidebar-hidden .toggle-btn#sidebar-toggle:hover {
+    body.sidebar-hidden .sidebar-toggle:hover {
       background: #444;
-    }
-
-    body.toc-hidden .toggle-btn#toc-toggle {
-      background: #666;
-    }
-
-    body.toc-hidden .toggle-btn#toc-toggle:hover {
-      background: #444;
-    }
-
-    /* TOC 非表示時のスタイル */
-    body.toc-hidden .page_toc {
-      display: none !important;
-    }
-
-    body.toc-hidden .content {
-      right: 0 !important;
     }
 
     /* aside.nav を常に非表示 */
@@ -134,10 +75,7 @@
   </style>
 </head>
 <body>
-  <div class="toggle-buttons">
-    <button class="toggle-btn" id="sidebar-toggle" title="サイドバーの表示/非表示">☰</button>
-    <button class="toggle-btn" id="toc-toggle" title="ページ内目次の表示/非表示">⊞</button>
-  </div>
+  <button class="sidebar-toggle" id="sidebar-toggle" title="サイドバーの表示/非表示">☰</button>
   <div id="app"></div>
   <script>
     window.$docsify = {
@@ -174,19 +112,14 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
 
   <script>
-    // サイドバーとTOC表示/非表示の切り替え機能
+    // サイドバー表示/非表示の切り替え機能
     const sidebarToggleBtn = document.getElementById('sidebar-toggle');
-    const tocToggleBtn = document.getElementById('toc-toggle');
     const sidebarHiddenKey = 'docsify-sidebar-hidden';
-    const tocHiddenKey = 'docsify-toc-hidden';
 
     // ページロード時に保存された状態を復元
-    function restoreToggleStates() {
+    function restoreToggleState() {
       if (localStorage.getItem(sidebarHiddenKey) === 'true') {
         document.body.classList.add('sidebar-hidden');
-      }
-      if (localStorage.getItem(tocHiddenKey) === 'true') {
-        document.body.classList.add('toc-hidden');
       }
     }
 
@@ -197,16 +130,9 @@
       localStorage.setItem(sidebarHiddenKey, isHidden);
     });
 
-    // TOCトグル
-    tocToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('toc-hidden');
-      const isHidden = document.body.classList.contains('toc-hidden');
-      localStorage.setItem(tocHiddenKey, isHidden);
-    });
-
     // ページロード時に状態を復元
-    document.addEventListener('DOMContentLoaded', restoreToggleStates);
-    restoreToggleStates();
+    document.addEventListener('DOMContentLoaded', restoreToggleState);
+    restoreToggleState();
   </script>
 </body>
 </html>
