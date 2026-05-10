@@ -2,4 +2,5 @@
 - プロジェクト
   - [Salesforce](salesforce/)
   - [Heroku](heroku/)
+- [セットアップ](setup-guide/)
 - [共通](common/)
